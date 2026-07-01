@@ -1,8 +1,16 @@
+---
+title: HealSync AI
+emoji: 🪳
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+---
+
 # HealSync AI 🪳 - Autonomous DevOps & Infrastructure Self-Healing Agent
 
-<p align="center">
-  <img src="healsync_logo.png" width="350" alt="HealSync AI Logo">
-</p>
 
 **HealSync AI** is an autonomous, self-healing DevOps and infrastructure agent designed for the **CockroachDB × AWS Hackathon: Build with Agentic Memory**. 
 
