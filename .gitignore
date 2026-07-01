@@ -1,0 +1,16 @@
+# Virtual environment
+venv/
+ENV/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local database
+heal_sync.db
+
+# OS files
+.DS_Store
+Thumbs.db

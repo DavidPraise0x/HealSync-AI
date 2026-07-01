@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealSync AI - Self-Healing DevOps Console</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background glow grids -->
+    <div class="glow-sphere sphere-1"></div>
+    <div class="glow-sphere sphere-2"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="logo-icon">🪳</span>
+                <div class="brand-text">
+                    <h1>HealSync AI</h1>
+                    <span class="badge badge-primary">DevOps Agent v1.0</span>
+                </div>
+            </div>
+            
+            <nav class="side-menu">
+                <a href="#" class="active"><span class="icon">🖥️</span> Dashboard</a>
+                <a href="#runbooks" id="runbooks-menu-btn"><span class="icon">📖</span> Runbook Library</a>
+                <a href="https://cockroachdb-ai.devpost.com/" target="_blank"><span class="icon">🏆</span> Hackathon Details</a>
+            </nav>
+            
+            <div class="db-status-card">
+                <div class="status-indicator online"></div>
+                <div class="db-info">
+                    <h4>CockroachDB Memory</h4>
+                    <p>Cluster: cockroach-prod</p>
+                    <span class="vector-indexing-tag">Vector Index: Active</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="page-title">
+                    <h2>Infrastructure Control Center</h2>
+                    <p>AI-driven autonomous remediation & incident healing</p>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-danger font-semibold" id="trigger-incident-btn">
+                        <span class="pulse-icon"></span> Simulate System Incident
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Dashboard Stats Grid -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🚨</div>
+                    <div class="stat-info">
+                        <h3>Total Incidents</h3>
+                        <p class="stat-val" id="stat-total">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning">⚙️</div>
+                    <div class="stat-info">
+                        <h3>Active Outages</h3>
+                        <p class="stat-val" id="stat-active">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success">✅</div>
+                    <div class="stat-info">
+                        <h3>Self-Healed</h3>
+                        <p class="stat-val" id="stat-resolved">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon percent">📈</div>
+                    <div class="stat-info">
+                        <h3>Success Rate</h3>
+                        <p class="stat-val" id="stat-rate">100%</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Dashboard Main Section -->
+            <section class="workspace-grid">
+                <!-- Left panel: Incidents List -->
+                <div class="panel incident-list-panel">
+                    <div class="panel-header">
+                        <h3>Alert & Incident Stream</h3>
+                        <span class="badge font-medium" id="incident-count">0 Tickets</span>
+                    </div>
+                    <div class="panel-body list-body" id="incident-list">
+                        <!-- Loaded dynamically -->
+                        <div class="empty-state">
+                            <p>Loading incident stream...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right panel: Terminal & Remediation Console -->
+                <div class="panel console-panel">
+                    <div class="panel-header console-header-title">
+                        <h3>Agent Execution Console</h3>
+                        <div class="console-actions">
+                            <span class="badge" id="selected-incident-status">No Incident Selected</span>
+                        </div>
+                    </div>
+                    <div class="panel-body console-body" id="console-default-state">
+                        <div class="console-placeholder">
+                            <span class="placeholder-icon">🤖</span>
+                            <h3>Awaiting Incident Trigger</h3>
+                            <p>Select an incident from the stream or simulate a new infrastructure failure using the button above to begin agent self-healing.</p>
+                        </div>
+                    </div>
+                    <div class="panel-body console-body hide" id="console-active-state">
+                        <div class="incident-console-header">
+                            <div class="detail-summary">
+                                <h4 id="console-incident-title">Database Outage Detected</h4>
+                                <p id="console-incident-desc">Incident details here...</p>
+                            </div>
+                            <div class="metadata-row">
+                                <span class="meta-item"><strong class="meta-label">Severity:</strong> <span class="badge" id="console-incident-severity">CRITICAL</span></span>
+                                <span class="meta-item"><strong class="meta-label">Triggered:</strong> <span id="console-incident-time">June 30, 2026</span></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Monospace terminal screen -->
+                        <div class="terminal">
+                            <div class="terminal-bar">
+                                <div class="dot red"></div>
+                                <div class="dot yellow"></div>
+                                <div class="dot green"></div>
+                                <div class="terminal-title">healsync-agent@aws-us-east-1:~</div>
+                            </div>
+                            <div class="terminal-screen" id="terminal-output">
+                                <!-- Streamed output goes here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Simulation Modal -->
+    <div class="modal-backdrop hide" id="incident-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Simulate System Incident</h3>
+                <button class="close-btn" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-intro">Select a predefined system failure scenario to inject into AWS CloudWatch logs. HealSync Agent will fetch embeddings from CockroachDB to locate a remediation path.</p>
+                
+                <div class="scenarios-list">
+                    <div class="scenario-card" data-scenario="cpu">
+                        <div class="scenario-icon">🔥</div>
+                        <div class="scenario-info">
+                            <h4>ECS Container CPU Spike (96%)</h4>
+                            <p>High latency degradation affecting production checkout workflows on AWS Fargate.</p>
+                            <span class="severity-tag critical">CRITICAL</span>
+                        </div>
+                    </div>
+                    <div class="scenario-card" data-scenario="db">
+                        <div class="scenario-icon">🪳</div>
+                        <div class="scenario-info">
+                            <h4>Database Connection Timeout</h4>
+                            <p>API gateway returns 500 status codes due to connection pool saturation.</p>
+                            <span class="severity-tag high">HIGH</span>
+                        </div>
+                    </div>
+                    <div class="scenario-card" data-scenario="s3">
+                        <div class="scenario-icon">📦</div>
+                        <div class="scenario-info">
+                            <h4>AWS S3 Access Denied (403)</h4>
+                            <p>Resource ingestion pipeline failing upload checks due to policy validation error.</p>
+                            <span class="severity-tag medium">MEDIUM</span>
+                        </div>
+                    </div>
+                    <div class="scenario-card" data-scenario="lambda">
+                        <div class="scenario-icon">⚡</div>
+                        <div class="scenario-info">
+                            <h4>AWS Lambda Out of Memory</h4>
+                            <p>Payment processing endpoint failing execution with code 137 memory limits exceeded.</p>
+                            <span class="severity-tag high">HIGH</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Runbook Library Modal -->
+    <div class="modal-backdrop hide" id="runbook-modal">
+        <div class="modal runbook-modal-size">
+            <div class="modal-header">
+                <h3>CockroachDB Runbook Library</h3>
+                <button class="close-btn" id="runbook-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-intro">Below are the persistent self-healing procedures stored in CockroachDB. The agent executes semantic searches over these records to resolve alerts.</p>
+                <div class="runbook-grid" id="runbook-grid-content">
+                    <!-- Runbooks will be loaded here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
